@@ -147,7 +147,7 @@
 				</executions>
 				<configuration>
 					<descriptors>
-						<descriptor>src/assembly/distribution/deployment.xml</descriptor>
+						<descriptor>src/assembly/zip.xml</descriptor>
 					</descriptors>
 				</configuration>
 			</plugin>

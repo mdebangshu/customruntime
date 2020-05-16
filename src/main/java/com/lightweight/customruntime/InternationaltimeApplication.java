@@ -8,10 +8,14 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.lightweight.customruntime.conf.AppConfiguration;
+import com.lightweight.customruntime.conf.DynamoDBConfig;
 import com.lightweight.customruntime.function.WorlTimeFunction;
 import com.lightweight.customruntime.model.Country;
 import com.lightweight.customruntime.model.WorldTime;
+import com.lightweight.customruntime.repositories.CountryValidatorRepository;
 
 @SpringBootConfiguration
 public class InternationaltimeApplication implements ApplicationContextInitializer<GenericApplicationContext> {
@@ -26,8 +30,19 @@ public class InternationaltimeApplication implements ApplicationContextInitializ
 		context.registerBean(AppConfiguration.class.getName(), AppConfiguration.class,
 				() -> new AppConfiguration(context));
 
-		context.registerBean("restTemplate", RestTemplate.class,
+		context.registerBean(DynamoDBConfig.class.getName(), DynamoDBConfig.class, () -> new DynamoDBConfig());
+
+		context.registerBean(RestTemplate.class.getName(), RestTemplate.class,
 				() -> context.getBean(AppConfiguration.class).getRestTemplate());
+
+		context.registerBean(AmazonDynamoDB.class.getName(), AmazonDynamoDB.class,
+				() -> context.getBean(DynamoDBConfig.class).amazonDynamoDB());
+
+		context.registerBean(AWSCredentials.class.getName(), AWSCredentials.class,
+				() -> context.getBean(DynamoDBConfig.class).amazonAWSCredentials());
+
+		context.registerBean(CountryValidatorRepository.class.getName(), CountryValidatorRepository.class,
+				() -> new CountryValidatorRepository(context));
 
 		context.registerBean("worldTimeFunction", FunctionRegistration.class,
 				() -> new FunctionRegistration<>(new WorlTimeFunction(context))

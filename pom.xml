@@ -61,9 +61,30 @@
 			<artifactId>spring-cloud-function-adapter-aws</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-dynamodb</artifactId>
+			<version>1.11.64</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.derjust</groupId>
+			<artifactId>spring-data-dynamodb</artifactId>
+			<version>5.1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20190722</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.30</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -126,7 +147,7 @@
 				</executions>
 				<configuration>
 					<descriptors>
-						<descriptor>src/assembly/zip.xml</descriptor>
+						<descriptor>src/assembly/distribution/deployment.xml</descriptor>
 					</descriptors>
 				</configuration>
 			</plugin>
